@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengumuman TASK 2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafb;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 420px;
+      box-sizing: border-box;
+    }
+
+    .logo {
+      width: 60px;
+      margin-bottom: 0.8rem;
+      border-radius: 8px;
+    }
+
+    .spin {
+      animation: spin 4s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #0f172a;
+      margin: 0.5rem 0;
+    }
+
+    #countdown {
+      font-size: 0.9rem;
+      color: #3b82f6;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+      color: #475569;
+      margin: 0.4rem 0;
+    }
+
+    input[type="text"] {
+      padding: 0.6rem 1rem;
+      width: 100%;
+      border-radius: 25px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 10px;
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
+      color: white;
+      font-size: 0.9rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      width: 100%;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+    }
+
+    .result {
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+      padding: 0.6rem;
+      background: #f1f5f9;
+      border-radius: 12px;
+    }
+
+    .result img {
+      max-width: 140px;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+
+    .loader {
+      border: 4px solid #eee;
+      border-top: 4px solid #3b82f6;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      margin: 10px auto;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    @media (max-width: 400px) {
+      h2 {
+        font-size: 1rem;
+      }
+
+      .logo {
+        width: 50px;
+      }
+
+      input[type="text"], button {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.8rem;
+      }
+
+      .result {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-height: 600px) {
+      html, body {
+        overflow: hidden;
+      }
+      .container {
+        transform: scale(0.95);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://raw.githubusercontent.com/fariz29-1233/kelulusan/main/%5BEXZYN%20UNIVERSE%5D_20250508_135755_0000.png" class="logo" alt="Logo">
+    <h2>Pengumuman TASK 2</h2>
+    <div id="countdown"></div>
+
+    <div id="pengumuman" style="display: none;">
+      <p>Masukkan nomor pendaftaran kamu:</p>
+      <input id="nisn" type="text" placeholder="Contoh: EU25-000" />
+      <button onclick="cekKelulusan()">Cek Hasil</button>
+      <div id="hasil" class="result"></div>
+    </div>
+  </div>
+
+  <script>
+    const tanggalPengumuman = new Date("April 28, 2025 15:00:00").getTime();
+    const logo = document.querySelector(".logo");
+
+    const timer = setInterval(() => {
+      const sekarang = new Date().getTime();
+      const selisih = tanggalPengumuman - sekarang;
+
+      const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
+      const jam = Math.floor((selisih % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const menit = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
+      const detik = Math.floor((selisih % (1000 * 60)) / 1000);
+
+      if (selisih > 0) {
+        document.getElementById("countdown").innerText =
+          `Pengumuman dimulai dalam ${hari}h ${jam}j ${menit}m ${detik}d`;
+        logo.classList.add("spin");
+      } else {
+        clearInterval(timer);
+        document.getElementById("countdown").style.display = "none";
+        document.getElementById("pengumuman").style.display = "block";
+        logo.classList.remove("spin");
+      }
+    }, 1000);
+
+    function cekKelulusan() {
+      const nisn = document.getElementById("nisn").value.trim();
+      const hasil = document.getElementById("hasil");
+
+      if (!nisn) {
+        hasil.innerHTML = "<span style='color:red;'>Masukkan NISN terlebih dahulu.</span>";
+        return;
+      }
+
+      hasil.classList.remove("fade-in");
+      hasil.innerHTML = '<div class="loader"></div>';
+
+      fetch(`https://script.google.com/macros/s/AKfycbxV7jpG2vDdK86J6sY305ra_sTLqNEdk7mQgYUOV1Kj0Nv3_N5UWalfC2pD7J96zCPYMA/exec?nisn=${encodeURIComponent(nisn)}`)
+        .then(res => res.json())
+        .then(data => {
+          hasil.classList.add("fade-in");
+
+          if (data.error) {
+            hasil.innerHTML = `<span style="color:red;">${data.error}</span>`;
+          } else {
+            const statusColor = data.status === "LOLOS" ? "green" : "red";
+            if (data.status === "LOLOS") {
+              hasil.innerHTML = `
+                <img src="${data.foto}" alt="Foto Peserta">
+                <p><strong>Nama:</strong> ${data.nama}</p>
+                <p><strong>Nilai:</strong> ${data.nilai}</p>
+                <p><strong>Peringkat:</strong> ${data.rank}</p>
+                <p style="color:${statusColor}; font-size:1rem;"><strong>${data.status}</strong></p>
+                <p><strong>Selamat! Anda lolos ke babak selanjutnya</strong></p>
+                <p>Silakan kembali ke Hall Exzyn Universe 2025 untuk informasi lebih lanjut</p>
+              `;
+            } else {
+              hasil.innerHTML = `
+                <p><strong>Nama:</strong> ${data.nama}</p>
+                <p style="color:${statusColor}; font-size:1rem;"><strong>${data.status}</strong></p>
+                <p style="color:red;">Maaf, kamu belum lolos. Sampai jumpa di Exzyn Universe selanjutnya!</p>
+              `;
+            }
+          }
+        })
+        .catch(() => {
+          hasil.classList.add("fade-in");
+          hasil.innerHTML = "<span style='color:red;'>Terjadi kesalahan saat menghubungi server</span>";
+        });
+    }
+  </script>
+</body>
+</html>
